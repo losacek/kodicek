@@ -1,0 +1,154 @@
+//polozky dat do 1 pole a zapisovat je v kodu
+Console.WriteLine("Zadej pocet aut");
+int pocet = Int32.Parse(Console.ReadLine());
+Console.Clear();
+Console.WriteLine("Zadej pocet roků co budeš chtít videt");
+int roky = Int32.Parse(Console.ReadLine());
+Console.Clear();
+float[,] procentasou = new float[pocet, roky];
+float[,] soucet = new float[pocet, roky];
+int[] procenta = new int[pocet];
+string[] pole = new string[pocet];
+float[,] ceny = new float[pocet, roky];
+int[] servis = new int[pocet];
+int[] pojistka = new int[pocet];
+int[] palivo = new int[pocet];
+int[] vypocet = new int[pocet];
+Console.WriteLine("kolik chceš přidat dalších parametrů(až na odpis)");
+int poc = Int32.Parse(Console.ReadLine());
+string[] nazevpar = new string[poc];
+int[,] parametry = new int[poc, pocet];
+for (int f = 0; f < poc; f++)
+{
+    Console.WriteLine("zadej jmeno parametru cislo" + f);
+    nazevpar[f] = (Console.ReadLine());
+}
+//zapis do pole
+for (int i = 0; i < pole.Length; i++)
+{
+    Console.WriteLine("Zadejte nazev auta");
+    pole[i] = Console.ReadLine();
+
+    Console.WriteLine("Zadej cenu auta: " + pole[i]);
+    ceny[i, 0] = Int32.Parse(Console.ReadLine());
+
+    Console.WriteLine("Zadej odpis auta: " + pole[i]);
+    procenta[i] = Int32.Parse(Console.ReadLine());
+
+    //parametry
+    for (int g = 0; g < poc; g++)
+    {
+        Console.WriteLine("zadej cenu parametru : " + nazevpar[g]);
+        parametry[g, i] = Int32.Parse(Console.ReadLine());
+    }
+
+    for (int u = 0; u < poc; u++)
+    {
+        vypocet[i] = vypocet[i] + parametry[u, i];
+    }
+}
+
+//vypocet
+for (int t = 0; t < pocet; t++)
+{
+    for (int g = 1; g < roky; g++)
+    {
+        int g2 = g - 1;
+        float hh = ceny[t, g2] / 100;
+        float hhh = hh * procenta[t];
+        for (int u = g; u < roky; u++)
+        {
+            procentasou[t, u] = procentasou[t, u] + hhh;
+        }
+        float hhhh = ceny[t, g2] - hhh;
+
+        ceny[t, g] = hhhh;
+    }
+}
+//vypocet par.
+for (int i = 0; i < roky; i++)
+{
+    int i1 = i + 1;
+    for (int j = 0; j < pocet; j++)
+    {
+        soucet[j, i] = vypocet[j] * i1;
+        soucet[j, i] = soucet[j, i] + procentasou[j, i];
+    }
+}
+
+
+
+//vypsání 
+
+// Console.Clear();
+Console.Write("    auta  /");
+for (int u = 0; u < pole.Length; u++)
+{
+    Console.Write("  " + pole[u] + "  /");
+
+}
+Console.WriteLine(" ");
+Console.Write("procenta/");
+for (int u = 0; u < pole.Length; u++)
+{
+    Console.Write(procenta[u] + "/     ");
+
+}
+Console.WriteLine(" ");
+Console.WriteLine("parametry/");
+for (int z = 0; z < poc; z++)
+{
+    Console.Write("          " + nazevpar[z] + "/");
+
+    for (int g = 0; g < pole.Length; g++)
+    {
+        Console.Write(parametry[z, g] + " / ");
+    }
+    Console.WriteLine("    ");
+}
+
+Console.WriteLine();
+Console.Write("    ");
+for (int i = 0; i < roky; i++)
+{
+    int rok = 2024 + i;
+    Console.WriteLine("    " + rok);
+    Console.Write("       ");
+    for (int u = 0; u < pole.Length; u++)
+    {
+        Console.Write("    " + ceny[u, i] + "/");
+    }
+    Console.WriteLine(" ");
+    Console.Write("    ");
+}
+
+
+Console.WriteLine("výpocet procentuálních strát");
+for (int i = 0; i < roky; i++)
+{
+    int rok = 2024 + i;
+    Console.WriteLine("    " + rok);
+    Console.Write("       ");
+
+    for (int u = 0; u < pole.Length; u++)
+    {
+        Console.Write("    " + procentasou[u, i] + "/");
+    }
+    Console.WriteLine(" ");
+    Console.Write("    ");
+}
+
+Console.WriteLine("výpocet parametrů");
+for (int i = 0; i < roky; i++)
+{
+    int rok = 2024 + i;
+    Console.WriteLine("    " + rok);
+    Console.Write("       ");
+
+    for (int u = 0; u < pole.Length; u++)
+    {
+        Console.Write("    " + soucet[u, i] + "/");
+    }
+    Console.WriteLine(" ");
+    Console.Write("    ");
+}
